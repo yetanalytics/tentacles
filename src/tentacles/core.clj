@@ -1,8 +1,9 @@
 (ns tentacles.core
-  (:require [clj-http.client :as http]
+  (:require [org.httpkit.client :as http]
             [cheshire.core :as json]
             [clojure.string :as str]
-            [cemerick.url :as url]))
+            [cemerick.url :as url]
+            [clojure.walk :refer [stringify-keys]]))
 
 (def ^:dynamic url "https://api.github.com/")
 (def ^:dynamic defaults {})
@@ -114,6 +115,10 @@
               (assoc req :query-params proper-query))]
     req))
 
+
+(defn- stringify-headers [resp]
+  (update resp :headers stringify-keys))
+
 (defn api-call
   ([method end-point] (api-call method end-point nil nil))
   ([method end-point positional] (api-call method end-point positional nil))
@@ -122,7 +127,9 @@
            all-pages? (query :all-pages)
            req (make-request method end-point positional query)
            exec-request-one (fn exec-request-one [req]
-                              (safe-parse (http/request req)))
+                              (-> @(http/request req)
+                                  stringify-headers
+                                  safe-parse))
            exec-request (fn exec-request [req]
                           (let [resp (exec-request-one req)]
                             (if (and all-pages? (-> resp meta :links :next))
@@ -138,7 +145,7 @@
      (let [query (or query {})
            all-pages? (query :all-pages)
            req (make-request method end-point positional query)]
-       (http/request req))))
+       @(http/request req))))
 
 (defn environ-auth
   "Lookup :gh-username and :gh-password in environ (~/.lein/profiles.clj or .lein-env) and return a string auth.
