@@ -78,6 +78,36 @@
   [org user options]
   (no-content? (api-call :delete "orgs/%s/public_members/%s" [org user] options)))
 
+(defn get-membership
+  "Get a user's membership with an organization."
+  [org user options]
+  (api-call :get "orgs/%s/memberships/%s" [org user] options))
+
+(defn add-membership
+  "Add or update organization membership for a user"
+  [org user role options]
+  (api-call :put "orgs/%s/memberships/%s" [org user] (assoc options :role role)))
+
+(defn remove-membership
+  "Remove an organization membership."
+  [org user options]
+  (no-content? (api-call :delete "orgs/%s/memberships/%s" [org user] options)))
+
+(defn user-org-memberships
+  "List the organization memberships for the current authenticated user."
+  [options]
+  (api-call :get "user/memberships/orgs" nil options))
+
+(defn user-org-membership
+  "Get the current authenticated user's membership in a given org"
+  [org options]
+  (api-call :get "user/memberships/orgs/%s" [org] options))
+
+(defn edit-user-org-membership
+  "Edit the current authenticated user's membership in a given org"
+  [org options]
+  (api-call :patch "user/memberships/orgs/%s" [org] (assoc options :state "active")))
+
 ;; ## Org Teams API
 
 (defn teams
