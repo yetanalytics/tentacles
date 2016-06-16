@@ -1,12 +1,14 @@
 # An octocat is nothing without her tentacles
 
+This fork of [tentacles](https://github.com/Raynes/tentacles) replaces clj-http with http-kit, fixes some bugs, and fleshes out the API.
+
 Tentacles is a Clojure library for working with the Github v3 API. It supports the entire Github API.
 
 This library is the successor to my old [clj-github](https://github.com/Raynes/clj-github) library. clj-github will no longer be maintained.
 
 ## Usage
 
-This is on clojars, of course. Just add `[tentacles "0.5.1"]` to your `:dependencies` in your project.clj file.
+This is on clojars, of course. Just add `[com.yetanalytics/tentacles "0.5.2"]` to your `:dependencies` in your project.clj file.
 
 ### CODE!
 
