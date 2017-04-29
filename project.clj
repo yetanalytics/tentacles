@@ -1,6 +1,6 @@
-(defproject tentacles "0.5.3-SNAPSHOT"
+(defproject com.yetanalytics/tentacles "0.5.3-SNAPSHOT"
   :description "A library for working with the Github API."
-  :url "https://github.com/Raynes/tentacles"
+  :url "https://github.com/yetanalytics/tentacles"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
